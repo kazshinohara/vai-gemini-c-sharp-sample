@@ -1,0 +1,83 @@
+# .NET Core/.NET の無視設定
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+*.usertasks
+*.userosscache
+*.sln.docstates
+
+# ビルド結果
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# パッケージマネージャーの無視設定
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# IDE関連
+.idea/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# テストファイル
+TestResults/
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# OS 固有のファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 認証情報とシークレット
+*.key
+*.pfx
+*.snk
+*credentials*
+*Credentials*
+*_key.json
+appsettings.*.json
+!appsettings.example.json
+!appsettings.template.json
+
+# 環境変数ファイル
+.env
+.env.*
+
+# Google Cloud 関連
+gcloud-keys/
+google-cloud-sdk/
+
+# このプロジェクト固有の除外設定
+# サンプルPDFは含めない（コードで参照するパスのみ記述）
+sample-data/*.pdf
+
+# アクセストークンなどが含まれる可能性のあるスクリプト
+*.access_token
+token_scripts/
+
+# エディタの一時ファイル/バックアップファイル
+*~
+*.bak
+*.swp
+*.swo
+*.save
+pico.save
+nano.save
+.*.swp
