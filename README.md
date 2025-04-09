@@ -1,6 +1,6 @@
-# Gemini Chat Sample
+# Vertex AI Gemini C# Multi-turn Chat Sample
 
-Google Cloud Vertex AI の Gemini 2.0 Flash モデルを使用したマルチターンチャットのサンプルアプリケーションです。
+Vertex AI の Gemini 2.0 Flash モデルを使用したマルチターンチャットのサンプルアプリケーションです。
 ストリーミングレスポンスに対応し、AIの応答をリアルタイムで表示します。
 
 ## 前提条件

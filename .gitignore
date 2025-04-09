@@ -32,6 +32,7 @@ artifacts/
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+*.code-workspace
 
 # テストファイル
 TestResults/
