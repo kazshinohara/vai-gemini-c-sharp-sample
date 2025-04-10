@@ -6,31 +6,31 @@ Vertex AI の Gemini 2.0 Flash モデルを使用したマルチターンチャ�
 ## 前提条件
 
 - .NET 8.0以上
-- Google Cloud Project
-- Vertex AI APIの有効化
-- Cloud Storage API の有効化
-- `gcloud` CLIツールのインストール
+- 課金が有効化された Google Cloud プロジェクト
 - お使いのユーザーアカウントがプロジェクトの Owner 権限を持っている
 
 ## セットアップ
 
-1. Google Cloud Projectの設定
-   - [Google Cloud Console](https://console.cloud.google.com/)で新しいプロジェクトを作成
-   - Vertex AI APIを有効化
-   - Cloud Storage APIを有効化
-   - プロジェクトの課金を有効化
-
-2. `gcloud` CLIの設定
+1. `gcloud` CLIの設定 (Cloud Shell を使う場合は省略可能)
    ```bash
    # gcloud CLIのインストール（まだの場合）
-   # macOS: brew install google-cloud-sdk
-   # Windows: https://cloud.google.com/sdk/docs/install-sdk#windows
+   以下のページを参考にインストール
+   https://cloud.google.com/sdk/docs/install-sdk
 
    # Google Cloudにログイン
    gcloud auth login
 
    # プロジェクトの設定
    gcloud config set project YOUR_PROJECT_ID
+   ```
+
+2. Vertex AI API と Cloud Storage API の有効化
+   ```bash
+   # Vertex AI API を有効化
+   gcloud services enable aiplatform.googleapis.com
+
+   # Cloud Storage API を有効化
+   gcloud services enable storage.googleapis.com
    ```
 
 3. Cloud Storageバケットの作成とPDFファイルのアップロード
