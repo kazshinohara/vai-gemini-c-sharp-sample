@@ -1,7 +1,6 @@
-# Vertex AI Gemini C# Multi-turn Streaming Chat Sample
+# Vertex AI Gemini C# Multi-turn Chat Sample With The Fixed JSON Schema
 
-Vertex AI の Gemini 2.0 Flash モデルを使用したマルチターンチャットのサンプルアプリケーションです。
-ストリーミングレスポンスに対応し、AIの応答をリアルタイムで表示します。
+Vertex AI の Gemini 2.0 Flash モデル と [Controlled Generation](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/control-generated-output) により予め指定した JSON スキーマでレスポンスを返すチャットのサンプルアプリケーションです。  
 
 ## 前提条件
 
@@ -79,7 +78,7 @@ Vertex AI の Gemini 2.0 Flash モデルを使用したマルチターンチャ�
    注: `--lifetime=43200` は秒単位で12時間（12時間 × 60分 × 60秒 = 43200秒）のトークン有効期限を指定しています。
 
 5. プロジェクトの設定
-   - `VertexGeminiChat.cs`の`ProjectId`変数を自分のGoogle Cloud Project IDに変更
+   - `VertexGeminiJsonChat.cs`の`ProjectId`変数を自分のGoogle Cloud Project IDに変更
    ```csharp
    private static readonly string ProjectId = "YOUR_PROJECT_ID";
    ```
@@ -100,13 +99,14 @@ dotnet run
 ## 機能
 
 - マルチターンチャット：会話の文脈を保持
-- ストリーミングレスポンス：AIの応答をリアルタイムで表示
+- JSONレスポンス：予め指定したスキーマに従って JSON フォーマットでレスポンス
+- 複数フィールドの応答：回答(Response)、根拠(Reason)、情報源(Information)などを明示的に区別
 - 会話履歴の管理：最大10ターンまでの会話を保持
 - 添付ファイル（PDF）のサポート：地図などの情報をAIに提供可能
 - Gemini 2.0 Flash モデルの活用：高速で自然な応答生成
 - 生成パラメータの調整：温度（Temperature）と上位確率（TopP）による応答の多様性制御
 
-## 生成パラメータの設定
+## 生成パラメータとレスポンススキーマの設定
 
 コード内で以下のパラメータを調整できます：
 
@@ -114,25 +114,42 @@ dotnet run
 // 生成パラメータの設定
 private static readonly float Temperature = 1.0f; // 値が大きいほど多様な応答（0.0-2.0）
 private static readonly float TopP = 0.95f; // 確率質量の上位P%のトークンのみを考慮（0.0-1.0）
+
+// レスポンススキーマの定義
+var responseSchema = new 
+{
+    type = "object",
+    properties = new 
+    {
+        Response = new { type = "string", description = "Gemini からの返信" },
+        Reason = new { type = "string", description = "返信の内容を生成した理由" },
+        Information = new { type = "string", description = "返信するのに使った情報源" }
+    },
+    required = new[] { "Response", "Reason", "Information" }
+};
 ```
 
 - **Temperature**：値が高いほど創造的で多様な応答になり、低いほど一貫性のある応答になります
 - **TopP**：次のトークンを選択する際に考慮する確率分布の上位P%を制御します
+- **responseSchema**：応答の構造を定義し、特定のフィールドを必須にできます
 
 ## 使用方法
 
 1. アプリケーションを起動すると、チャットインターフェースが表示されます
 2. プロンプトに質問や指示を入力します
-3. AIからの応答がリアルタイムで表示されます
+3. AIから応答と共に当該応答に至った理由と情報源が表示されます
 4. 会話を終了するには 'exit' と入力します
 
 ## コードの構造
 
 - **ChatMessage**：チャットメッセージを表すクラス（テキストとファイル添付をサポート）
+- **ModelResponse**：モデルからの構造化レスポンスを表すクラス
 - **InitializeSystemMessage**：システムメッセージの初期化
 - **RunChatLoop**：メインのチャットループを実行
 - **TrimChatHistory**：チャット履歴のサイズ管理
-- **SendRequestStreamingAsync**：ストリーミングAPIリクエストの送信と処理
+- **SendRequestAsync**：APIリクエストの送信と処理
+- **ParseResponseJson**：APIレスポンスからJSONデータを抽出
+- **ParseTextContentAsJson**：テキストコンテンツをJSONとしてパース
 - **CreateContentsFromChatHistory**：チャット履歴からAPIリクエスト用データの作成
 
 ## 注意事項
