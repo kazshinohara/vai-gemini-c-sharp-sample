@@ -82,3 +82,9 @@ token_scripts/
 pico.save
 nano.save
 .*.swp
+
+# その他
+*.backup
+*Response.json
+*Handle.txt
+*CLAUDE.md
